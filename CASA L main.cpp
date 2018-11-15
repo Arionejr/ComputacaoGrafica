@@ -18,6 +18,7 @@ GLfloat escalaX, escalaY, escalaZ;
 	static int stacks = 40;
 	static double t = 0;
 	static double a = 0;
+	static double angPorta = 0;
 	
 	static bool flagS = false;
 	static bool flagT = false;
@@ -31,6 +32,39 @@ GLfloat escalaX, escalaY, escalaZ;
 		a = t*90.0; 								//angulo randomico 
 		glutPostRedisplay();
 	}
+
+	// função teclado, recebendo informação para as portas e janelas
+static void 
+key(unsigned char key, int x, int y)
+{
+    switch (key) 
+    {
+        case 27 : 
+        case 'q':
+            exit(0);
+            break;
+
+        case 'p':
+        	if(angPorta<91){
+            	angPorta++;
+            	//slices++;
+            	//stacks++;
+            }
+            break;
+
+        case 'f':
+            if (angPorta>=0)
+            {
+                angPorta--;
+				//slices--;
+                //stacks--;
+            }
+            break;
+    }
+
+    glutPostRedisplay();
+}
+
 	
 // Função callback chamada para fazer o desenho
 void Desenha(void)
@@ -129,26 +163,26 @@ void Desenha(void)
 			glRotatef(90,10,0,0);			
     		glColor3f(1,0,0);    		   		
     		gluCylinder(quadratic, 0.2, 0.2, 5, 30, 30); // base, topo, altura, slices, stacks
-    	glPopMatrix();
+    	//glPopMatrix();
     	
-		glPushMatrix();
-			glTranslatef(20,5,15); 
-			glRotatef(90,10,0,0);			
-    		glColor3f(1,0,0);    		   		
+		//glPushMatrix();
+			glTranslatef(5,0,0); 
+			//glRotatef(90,10,0,0);			
+    		//glColor3f(1,0,0);    		   		
     		gluCylinder(quadratic, 0.2, 0.2, 5, 30, 30); // base, topo, altura, slices, stacks
-    	glPopMatrix();
+    	//glPopMatrix();
     	
-		glPushMatrix();
-			glTranslatef(25,5,10); 
-			glRotatef(90,10,0,0);			
-    		glColor3f(1,0,0);    		   		
+		//glPushMatrix();
+			glTranslatef(-5,5,0); 
+			//glRotatef(90,10,0,0);			
+    		//glColor3f(1,0,0);    		   		
     		gluCylinder(quadratic, 0.2, 0.2, 5, 30, 30); // base, topo, altura, slices, stacks
-    	glPopMatrix();
+    	//glPopMatrix();
     	
-		glPushMatrix();
-			glTranslatef(25,5,15); 
-			glRotatef(90,10,0,0);			
-    		glColor3f(1,0,0);    		   		
+		//glPushMatrix();
+			glTranslatef(5,0,0); 
+			//glRotatef(90,10,0,0);			
+    		//glColor3f(1,0,0);    		   		
     		gluCylinder(quadratic, 0.2, 0.2, 5, 30, 30); // base, topo, altura, slices, stacks
     	glPopMatrix();
     	
@@ -179,20 +213,20 @@ void Desenha(void)
 		glPushMatrix();
 			glBegin(GL_QUADS);
 				glColor3f(0.66,0.66,0.66); // cinza escuro
-				glVertex3f(15,0.1,15); //aqui 1
-				glVertex3f(15,10,15);
-				glVertex3f(15,10,30);
-				glVertex3f(15,0.1,30);             
+				glVertex3f(15,0,15); //aqui 1
+				glVertex3f(15,6,15);
+				glVertex3f(15,6,30);
+				glVertex3f(15,0,30);             
      	 	glEnd();
-  	 	glPopMatrix();
+  	 	glPopMatrix();	 	
   	 	
 		glPushMatrix();
 			glBegin(GL_QUADS);
 				glColor3f(0.66,0.66,0.66); // cinza escuro
-				glVertex3f(15,0.1,15);
+				glVertex3f(15,8,15);
 				glVertex3f(15,10,15);
 				glVertex3f(15,10,30);
-				glVertex3f(15,0.1,30);             
+				glVertex3f(15,8,30);             
      	 	glEnd();
   	 	glPopMatrix();
 
@@ -226,13 +260,13 @@ void Desenha(void)
      	 	glEnd();
   	 	glPopMatrix();
   	 	
-		glPushMatrix();
+		glPushMatrix(); // saida para garagem
 			glBegin(GL_QUADS);
 				glColor3f(0.66,0.66,0.66); // cinza escuro
-				glVertex3f(20,0.1,10);
-				glVertex3f(20,10,10);
-				glVertex3f(20,10,15);
-				glVertex3f(20,0.1,15);             
+				glVertex3f(20,2,10);
+				glVertex3f(20,5,10);
+				glVertex3f(20,5,15);
+				glVertex3f(20,2,15);             
      	 	glEnd();
   	 	glPopMatrix();
   	 	
@@ -320,6 +354,57 @@ void Desenha(void)
   	 			glVertex3f(8,9.5,30.4);
   	 		glEnd();
         glPopMatrix();
+
+//	------ PORTAS ----------
+        // PORTA a cima da garagem
+        glPushMatrix();
+        	glTranslatef(20,5,12);
+        	glRotatef(angPorta,0,1,0);
+        	glBegin(GL_QUADS);
+        		glColor3f(0.96,0.64,0.38); // marrom amarelado
+        		glVertex3f(0,0,0);
+        		glVertex3f(0,0,1);
+        		glVertex3f(0,2,1);
+        		glVertex3f(0,2,0);
+		   glEnd();
+        glPopMatrix();
+        
+        //PORTA da garagem
+        glPushMatrix();
+        	glTranslatef(20,0,12);
+        	glRotatef(angPorta,0,1,0);
+  	    	glBegin(GL_QUADS);
+   		        glVertex3f(0,0,0);
+        		glVertex3f(0,0,1);
+        		glVertex3f(0,2,1);
+        		glVertex3f(0,2,0);
+		   glEnd();
+        glPopMatrix();
+        
+
+//	------ JANELAS ----------
+        // JANELAS
+        glPushMatrix();
+        	glBegin(GL_QUADS);
+        		glColor3f(1,1,1); // Branco
+        		glVertex3f(15,6,18);
+        		glVertex3f(15,6,20);
+        		glVertex3f(15,8,20);
+        		glVertex3f(15,8,18);
+		    glEnd();		    
+        glPopMatrix();
+        
+        glPushMatrix();
+        	glBegin(GL_QUADS);
+        		glColor3f(1,1,1); // Branco
+        		glVertex3f(15,6,24);
+        		glVertex3f(15,6,26);
+        		glVertex3f(15,8,26);
+        		glVertex3f(15,8,24);
+		    glEnd();
+        glPopMatrix();
+        		
+        		
 	    
 	    
 		
@@ -384,12 +469,7 @@ void Desenha(void)
   	 		
   	 		
   	 		
-  	 	// FIM CASA
-  	 	
-  	 	
-
-
-        
+  	 	// FIM CASA        
 	    glutSwapBuffers();
 }
 
@@ -543,6 +623,7 @@ int main(void)
 	glutMouseFunc(GerenciaMouse);
 	glutMotionFunc(motion);
 	glutIdleFunc(idle);					// date class 05-11-18
+    glutKeyboardFunc(key);
 	Inicializa();
 	glutMainLoop();
 }
