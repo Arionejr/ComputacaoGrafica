@@ -19,6 +19,9 @@ GLfloat escalaX, escalaY, escalaZ;
 	static double t = 0;
 	static double a = 0;
 	static double angPorta = 0;
+	static double transJ = 19;
+	static double transJ2 = 25;
+	static double transJ3 = 24;
 	
 	static bool flagS = false;
 	static bool flagT = false;
@@ -47,8 +50,6 @@ key(unsigned char key, int x, int y)
         case 'p':
         	if(angPorta<91){
             	angPorta++;
-            	//slices++;
-            	//stacks++;
             }
             break;
 
@@ -56,12 +57,26 @@ key(unsigned char key, int x, int y)
             if (angPorta>=0)
             {
                 angPorta--;
-				//slices--;
-                //stacks--;
             }
             break;
+        case 'j':
+        	if(transJ>=18 || transJ2 >= 24 || transJ3 <= 25)
+			{
+				transJ -= 0.1;		
+				transJ2 -= 0.1;
+				transJ3 += 0.1;	
+			}	
+			
+			break;
+		case 'w':
+			if(transJ<=18.9 || transJ2 <= 24.9 || transJ3 >= 24)
+			{
+				transJ += 0.1;
+				transJ2 += 0.1;
+				transJ3 -= 0.1;
+			}
+			break;
     }
-
     glutPostRedisplay();
 }
 
@@ -191,7 +206,7 @@ void Desenha(void)
     	// GRAMADO - PISO
     	glPushMatrix();
 			glBegin(GL_QUADS);
-				glColor3f(0,1,0);
+				glColor3f(0,1,0); // verde gramado
 				glVertex3f(0,0,0);
 				glVertex3f(50,0,0);
 				glVertex3f(50,0,50);
@@ -203,17 +218,27 @@ void Desenha(void)
 		glPushMatrix();
 			glBegin(GL_QUADS);
 				glColor3f(0.66,0.66,0.66); // cinza escuro
-				glVertex3f(10,0.1,10);
-				glVertex3f(10,10,10);
-				glVertex3f(10,10,30);
-				glVertex3f(10,0.1,30);             
+				glVertex3f(10,0,10);
+				glVertex3f(10,6,10);
+				glVertex3f(10,6,30);
+				glVertex3f(10,0,30);             
      	 	glEnd();
   	 	glPopMatrix();
   	 	
 		glPushMatrix();
 			glBegin(GL_QUADS);
 				glColor3f(0.66,0.66,0.66); // cinza escuro
-				glVertex3f(15,0,15); //aqui 1
+				glVertex3f(10,8,10);
+				glVertex3f(10,10,10);
+				glVertex3f(10,10,30);
+				glVertex3f(10,8,30);             
+     	 	glEnd();
+  	 	glPopMatrix();
+  	 	
+		glPushMatrix();
+			glBegin(GL_QUADS);
+				glColor3f(0.66,0.66,0.66); // cinza escuro
+				glVertex3f(15,0,15); 
 				glVertex3f(15,6,15);
 				glVertex3f(15,6,30);
 				glVertex3f(15,0,30);             
@@ -233,13 +258,33 @@ void Desenha(void)
 		glPushMatrix();
 			glBegin(GL_QUADS);
 				glColor3f(0.66,0.66,0.66); // cinza escuro
-				glVertex3f(10,0.1,30);
+				glVertex3f(10,0,30);
+				glVertex3f(10,6,30);
+				glVertex3f(15,6,30);
+				glVertex3f(15,0,30);             
+     	 	glEnd();
+  	 	glPopMatrix();
+  	 	
+		glPushMatrix();
+			glBegin(GL_QUADS);
+				glColor3f(0.66,0.66,0.66); // cinza escuro
+				glVertex3f(10,8,30);
 				glVertex3f(10,10,30);
 				glVertex3f(15,10,30);
-				glVertex3f(15,0.1,30);             
+				glVertex3f(15,8,30);             
      	 	glEnd();
   	 	glPopMatrix();
 
+		glPushMatrix();
+			glBegin(GL_QUADS);
+				glColor3f(0.66,0.66,0.66); // cinza escuro
+				glVertex3f(15,8,15);
+				glVertex3f(15,10,15);
+				glVertex3f(15,10,30);
+				glVertex3f(15,8,30);             
+     	 	glEnd();
+  	 	glPopMatrix();		   
+		   
 		glPushMatrix();
 			glBegin(GL_QUADS);
 				glColor3f(0.66,0.66,0.66); // cinza escuro
@@ -268,8 +313,21 @@ void Desenha(void)
 				glVertex3f(20,5,15);
 				glVertex3f(20,2,15);             
      	 	glEnd();
-  	 	glPopMatrix();
+  	 	glPopMatrix();	 	
   	 	
+		   // piso terreo
+  	 	glPushMatrix();
+  	 		glBegin(GL_POLYGON);
+  	 			glColor3f(0.98,0.92,0.84); // branco antigo
+  	 			glVertex3f(8,0.1,8);
+  	 			glVertex3f(27,0.1,8);
+  	 			glVertex3f(27,0.1,17);
+  	 			glVertex3f(17,0.1,17);
+  	 			glVertex3f(17,0.1,32);
+  	 			glVertex3f(8,0.1,32);
+  	 		glEnd();
+        glPopMatrix();
+        
   	 	// piso 2º andar
   	 	glPushMatrix();
   	 		glBegin(GL_POLYGON);
@@ -384,35 +442,171 @@ void Desenha(void)
 
 //	------ JANELAS ----------
         // JANELAS
+        
+        // TORUS - BORDAS DAS JANELAS
+        // TORUS JANELA 1
         glPushMatrix();
+        	glTranslatef(15,7,19);
+        	glRotatef(45,0,0,1); // rotaciona 45º no eixo z
+         	glRotatef(90,1,1,0); // rotaciona 90º no eixo x,y
+        	glColor3f(0.47,0.53,0.42); //verde militar
+        	glutSolidTorus(0.2,1.5,/*slices*/4,/*stacks*/4);
+	    glPopMatrix();
+	    
+	    // TORUS JANELA 2
+        glPushMatrix();
+        	glTranslatef(15,7,25);
+        	glRotatef(45,0,0,1); // rotaciona 45º no eixo z
+         	glRotatef(90,1,1,0); // rotaciona 90º no eixo x,y
+        	glColor3f(0.47,0.53,0.42); //verde militar
+        	glutSolidTorus(0.2,1.5,/*slices*/4,/*stacks*/4);
+	    glPopMatrix();
+	    
+        glPushMatrix();
+        	glTranslatef(10,7,19);
+        	glRotatef(45,0,0,1); // rotaciona 45º no eixo z
+         	glRotatef(90,1,1,0); // rotaciona 90º no eixo x,y
+        	glColor3f(0.47,0.53,0.42); //verde militar
+        	glutSolidTorus(0.2,1.5,/*slices*/4,/*stacks*/4);
+	    glPopMatrix();
+	    
+	    // TORUS JANELA 2
+        glPushMatrix();
+        	glTranslatef(10,7,25);
+        	glRotatef(45,0,0,1); // rotaciona 45º no eixo z
+         	glRotatef(90,1,1,0); // rotaciona 90º no eixo x,y
+        	glColor3f(0.47,0.53,0.42); //verde militar
+        	glutSolidTorus(0.2,1.5,/*slices*/4,/*stacks*/4);
+	    glPopMatrix();
+        
+        // JANELA 1
+        glPushMatrix();        	
         	glBegin(GL_QUADS);
         		glColor3f(1,1,1); // Branco
         		glVertex3f(15,6,18);
-        		glVertex3f(15,6,20);
-        		glVertex3f(15,8,20);
+        		glVertex3f(15,6,19);
+        		glVertex3f(15,8,19);
         		glVertex3f(15,8,18);
-		    glEnd();		    
+		    glEnd();
+			glBegin(GL_LINES);
+				glColor3f(0,0,0);
+				glVertex3f(15,6,18);
+				glVertex3f(15,6,19);
+				glVertex3f(15,6,19);
+				glVertex3f(15,8,19);
+				glVertex3f(15,8,19);
+				glVertex3f(15,8,18);
+				glVertex3f(15,8,18);
+				glVertex3f(15,6,18);
+			glEnd();				    
         glPopMatrix();
-        
+
+        glPushMatrix();
+        	glTranslatef(15,6,transJ);
+        	glBegin(GL_QUADS);
+        		glColor3f(1,1,1); // Branco
+        		glVertex3f(0,0,0);
+        		glVertex3f(0,0,1);
+        		glVertex3f(0,2,1);
+        		glVertex3f(0,2,0);
+		    glEnd();	
+			glBegin(GL_LINES);
+				glColor3f(0,0,0);
+				glVertex3f(0,0,0);
+		       	glVertex3f(0,0,1);
+		      	glVertex3f(0,0,1);
+		       	glVertex3f(0,2,1);
+		       	glVertex3f(0,2,1);
+		       	glVertex3f(0,2,0);
+		       	glVertex3f(0,2,0);
+		       	glVertex3f(0,0,0);
+			glEnd();    
+        glPopMatrix();
+
+		// JANELA 2
         glPushMatrix();
         	glBegin(GL_QUADS);
         		glColor3f(1,1,1); // Branco
         		glVertex3f(15,6,24);
-        		glVertex3f(15,6,26);
-        		glVertex3f(15,8,26);
+        		glVertex3f(15,6,25);
+        		glVertex3f(15,8,25);
         		glVertex3f(15,8,24);
 		    glEnd();
         glPopMatrix();
+
+
+        glPushMatrix();        	
+        	glBegin(GL_QUADS);
+        		glColor3f(1,1,1); // Branco
+        		glVertex3f(15,6,18);
+        		glVertex3f(15,6,19);
+        		glVertex3f(15,8,19);
+        		glVertex3f(15,8,18);
+		    glEnd();
+			glBegin(GL_LINES);
+				glColor3f(0,0,0);
+				glVertex3f(15,6,18);
+				glVertex3f(15,6,19);
+				glVertex3f(15,6,19);
+				glVertex3f(15,8,19);
+				glVertex3f(15,8,19);
+				glVertex3f(15,8,18);
+				glVertex3f(15,8,18);
+				glVertex3f(15,6,18);
+			glEnd();				    
+        glPopMatrix();
+
+        glPushMatrix();
+        	glTranslatef(15,6,transJ2);
+        	glBegin(GL_QUADS);
+        		glColor3f(1,1,1); // Branco
+        		glVertex3f(0,0,0);
+        		glVertex3f(0,0,1);
+        		glVertex3f(0,2,1);
+        		glVertex3f(0,2,0);
+		    glEnd();	
+			glBegin(GL_LINES);
+				glColor3f(0,0,0);
+				glVertex3f(0,0,0);
+		       	glVertex3f(0,0,1);
+		      	glVertex3f(0,0,1);
+		       	glVertex3f(0,2,1);
+		       	glVertex3f(0,2,1);
+		       	glVertex3f(0,2,0);
+		       	glVertex3f(0,2,0);
+		       	glVertex3f(0,0,0);
+			glEnd();    
+        glPopMatrix();
+        
+		// JANELA 3
+        glPushMatrix();
+        	glTranslatef(10,6,transJ3);
+        	glBegin(GL_QUADS);
+        		glColor3f(1,1,1); // Branco
+        		glVertex3f(0,0,0);
+        		glVertex3f(0,0,1);
+        		glVertex3f(0,2,1);
+        		glVertex3f(0,2,0);
+		    glEnd();	
+			glBegin(GL_LINES);
+				glColor3f(0,0,0);
+				glVertex3f(0,0,0);
+		       	glVertex3f(0,0,1);
+		      	glVertex3f(0,0,1);
+		       	glVertex3f(0,2,1);
+		       	glVertex3f(0,2,1);
+		       	glVertex3f(0,2,0);
+		       	glVertex3f(0,2,0);
+		       	glVertex3f(0,0,0);
+			glEnd();    
+        glPopMatrix(); 		
         		
-        		
-	    
-	    
-		
 		// traços de borda LINHAS
 		glPushMatrix();
 			glLineWidth(2.0f);
             glColor3f(0, 0, 0); // cinza ardósia
             glBegin(GL_LINES);
+            // paredes
 	    	glVertex3f(15.1,0.1,15.1);
 	    	glVertex3f(15.1,10,15.1);
 	    	glVertex3f(10,0.1,30);
@@ -453,22 +647,10 @@ void Desenha(void)
 			glVertex3f(8,9.5,8);
   	 		glVertex3f(12.5,12.5,12.5);
   	 		glVertex3f(8,9.5,8);
-  	 		glVertex3f(20.5,9.5,8);
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-            glEnd(); 
-	    glPopMatrix();
+  	 		glVertex3f(20.5,9.5,8);	    	
+			glEnd(); 
+	    glPopMatrix();	    
 	    
-	    
-	    
-
-  	 		
-  	 		
-  	 		
   	 	// FIM CASA        
 	    glutSwapBuffers();
 }
