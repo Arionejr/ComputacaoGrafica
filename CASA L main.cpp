@@ -18,10 +18,11 @@ GLfloat escalaX, escalaY, escalaZ;
 	static int stacks = 40;
 	static double t = 0;
 	static double a = 0;
-	static double angPorta = 0;
-	static double transJ = 19;
-	static double transJ2 = 25;
-	static double transJ3 = 24;
+	static double angPorta 	= 0;
+	static double transJ 	= 19;
+	static double transJ2 	= 25;
+	static double transJ3 	= 24;
+	static double transJ4 	= 18;
 	
 	static bool flagS = false;
 	static bool flagT = false;
@@ -58,22 +59,23 @@ key(unsigned char key, int x, int y)
             {
                 angPorta--;
             }
-            break;
+            break;        
         case 'j':
-        	if(transJ>=18 || transJ2 >= 24 || transJ3 <= 25)
+        	if(transJ>=18 || transJ2 >= 24 || transJ3 <= 25 || transJ4 <= 19)
 			{
-				transJ -= 0.1;		
+				transJ 	-= 0.1;		
 				transJ2 -= 0.1;
-				transJ3 += 0.1;	
-			}	
-			
+				transJ3 += 0.1;
+				transJ4 += 0.1;
+			}				
 			break;
 		case 'w':
-			if(transJ<=18.9 || transJ2 <= 24.9 || transJ3 >= 24)
+			if(transJ<19 || transJ2 < 25 || transJ3 > 24 || transJ4 > 18)
 			{
-				transJ += 0.1;
+				transJ 	+= 0.1;
 				transJ2 += 0.1;
 				transJ3 -= 0.1;
+				transJ4 -= 0.1;
 			}
 			break;
     }
@@ -118,8 +120,7 @@ void Desenha(void)
             glColor3f(1.0, 0.0, 0.0);
             glTranslatef(10,0.0,0.0);
             glutSolidSphere(1.0,50.0,50.0);
-	    glPopMatrix();  
-		
+	    glPopMatrix();  		
 	
 
 // AULA DE IERARQUIA
@@ -167,10 +168,10 @@ void Desenha(void)
 
 /*
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 */
-// CONSTRUI CASA A PARTIR DAQUI
+// CONSTRUIR CASA A PARTIR DAQUI
 
 		// CILINDRO
 		glPushMatrix();
@@ -200,8 +201,6 @@ void Desenha(void)
     		//glColor3f(1,0,0);    		   		
     		gluCylinder(quadratic, 0.2, 0.2, 5, 30, 30); // base, topo, altura, slices, stacks
     	glPopMatrix();
-    	
-    	
     	
     	// GRAMADO - PISO
     	glPushMatrix();
@@ -462,6 +461,7 @@ void Desenha(void)
         	glutSolidTorus(0.2,1.5,/*slices*/4,/*stacks*/4);
 	    glPopMatrix();
 	    
+	    // TORUS JANELA 3
         glPushMatrix();
         	glTranslatef(10,7,19);
         	glRotatef(45,0,0,1); // rotaciona 45º no eixo z
@@ -470,7 +470,7 @@ void Desenha(void)
         	glutSolidTorus(0.2,1.5,/*slices*/4,/*stacks*/4);
 	    glPopMatrix();
 	    
-	    // TORUS JANELA 2
+	    // TORUS JANELA 4
         glPushMatrix();
         	glTranslatef(10,7,25);
         	glRotatef(45,0,0,1); // rotaciona 45º no eixo z
@@ -502,7 +502,7 @@ void Desenha(void)
         glPopMatrix();
 
         glPushMatrix();
-        	glTranslatef(15,6,transJ);
+        	glTranslatef(15,6,transJ); // 15,6,19
         	glBegin(GL_QUADS);
         		glColor3f(1,1,1); // Branco
         		glVertex3f(0,0,0);
@@ -522,6 +522,7 @@ void Desenha(void)
 		       	glVertex3f(0,0,0);
 			glEnd();    
         glPopMatrix();
+        //fim janela 1
 
 		// JANELA 2
         glPushMatrix();
@@ -532,32 +533,21 @@ void Desenha(void)
         		glVertex3f(15,8,25);
         		glVertex3f(15,8,24);
 		    glEnd();
-        glPopMatrix();
-
-
-        glPushMatrix();        	
-        	glBegin(GL_QUADS);
-        		glColor3f(1,1,1); // Branco
-        		glVertex3f(15,6,18);
-        		glVertex3f(15,6,19);
-        		glVertex3f(15,8,19);
-        		glVertex3f(15,8,18);
-		    glEnd();
-			glBegin(GL_LINES);
-				glColor3f(0,0,0);
-				glVertex3f(15,6,18);
-				glVertex3f(15,6,19);
-				glVertex3f(15,6,19);
-				glVertex3f(15,8,19);
-				glVertex3f(15,8,19);
-				glVertex3f(15,8,18);
-				glVertex3f(15,8,18);
-				glVertex3f(15,6,18);
-			glEnd();				    
+		    glBegin(GL_LINES);
+   				glColor3f(0,0,0);
+				glVertex3f(15,6,24);
+				glVertex3f(15,6,25);
+				glVertex3f(15,6,25);
+				glVertex3f(15,8,25);
+				glVertex3f(15,8,25);
+				glVertex3f(15,8,24);
+				glVertex3f(15,8,24);
+				glVertex3f(15,6,24);
+            glEnd();
         glPopMatrix();
 
         glPushMatrix();
-        	glTranslatef(15,6,transJ2);
+        	glTranslatef(15,6,transJ2); //15,6,25
         	glBegin(GL_QUADS);
         		glColor3f(1,1,1); // Branco
         		glVertex3f(0,0,0);
@@ -577,10 +567,32 @@ void Desenha(void)
 		       	glVertex3f(0,0,0);
 			glEnd();    
         glPopMatrix();
+        // fim janela 2
         
 		// JANELA 3
         glPushMatrix();
-        	glTranslatef(10,6,transJ3);
+        	glBegin(GL_QUADS);
+        		glColor3f(1,1,1); // Branco
+        		glVertex3f(10,6,25);
+        		glVertex3f(10,6,26);
+        		glVertex3f(10,8,26);
+        		glVertex3f(10,8,25);
+		    glEnd();
+		    glBegin(GL_LINES);
+		    	glColor3f(0,0,0);
+				glVertex3f(10,6,25);
+				glVertex3f(10,6,26);
+				glVertex3f(10,6,26);
+				glVertex3f(10,8,26);
+				glVertex3f(10,8,26);
+				glVertex3f(10,8,25);
+				glVertex3f(10,8,25);
+				glVertex3f(10,6,25);
+            glEnd();
+        glPopMatrix();
+		
+        glPushMatrix();
+        	glTranslatef(10,6,transJ3); //10,6,24
         	glBegin(GL_QUADS);
         		glColor3f(1,1,1); // Branco
         		glVertex3f(0,0,0);
@@ -600,6 +612,51 @@ void Desenha(void)
 		       	glVertex3f(0,0,0);
 			glEnd();    
         glPopMatrix(); 		
+        // fim janela 3
+        
+        // JANELA 4
+        glPushMatrix();        	
+        	glBegin(GL_QUADS);
+        		glColor3f(1,1,1); // Branco
+        		glVertex3f(10,6,19);
+        		glVertex3f(10,6,20);
+        		glVertex3f(10,8,20);
+        		glVertex3f(10,8,19);
+		    glEnd();
+			glBegin(GL_LINES);
+				glColor3f(0,0,0);
+				glVertex3f(10,6,19);
+				glVertex3f(10,6,20);
+				glVertex3f(10,6,20);
+				glVertex3f(10,8,20);
+				glVertex3f(10,8,20);
+				glVertex3f(10,8,19);
+				glVertex3f(10,8,19);
+				glVertex3f(10,6,19);
+			glEnd();				    
+        glPopMatrix();
+        
+        glPushMatrix();
+        	glTranslatef(10,6,transJ4); // 10,6,18
+        	glBegin(GL_QUADS);
+        		glColor3f(1,1,1); // Branco
+        		glVertex3f(0,0,0);
+        		glVertex3f(0,0,1);
+        		glVertex3f(0,2,1);
+        		glVertex3f(0,2,0);
+		    glEnd();	
+			glBegin(GL_LINES);
+				glColor3f(0,0,0);
+				glVertex3f(0,0,0);
+		       	glVertex3f(0,0,1);
+		      	glVertex3f(0,0,1);
+		       	glVertex3f(0,2,1);
+		       	glVertex3f(0,2,1);
+		       	glVertex3f(0,2,0);
+		       	glVertex3f(0,2,0);
+		       	glVertex3f(0,0,0);
+			glEnd();    
+        glPopMatrix(); 
         		
 		// traços de borda LINHAS
 		glPushMatrix();
