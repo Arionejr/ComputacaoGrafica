@@ -89,9 +89,11 @@ void Desenha(void)
 	// Limpa a janela e o depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	 glClear(GL_COLOR_BUFFER_BIT);	    
+	 glClear(GL_COLOR_BUFFER_BIT);
+	 
+	 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	    
     	
-
+/*
 		glPushMatrix();
             glColor3f(0.9, 0.9, 0.9);
             glBegin(GL_LINES);
@@ -121,7 +123,7 @@ void Desenha(void)
             glTranslatef(10,0.0,0.0);
             glutSolidSphere(1.0,50.0,50.0);
 	    glPopMatrix();  		
-	
+  */	
 
 // AULA DE IERARQUIA
 /*
@@ -200,6 +202,18 @@ void Desenha(void)
 			//glRotatef(90,10,0,0);			
     		//glColor3f(1,0,0);    		   		
     		gluCylinder(quadratic, 0.2, 0.2, 5, 30, 30); // base, topo, altura, slices, stacks
+    		
+    		
+// DESENHANDO MESA NO MESANINO + TEAPOT 
+    		glColor3f(0.55,0.27,0.07);
+    		glTranslatef(-1,-2,-0.5);
+			gluCylinder(quadratic,0.5,0,0,30,30); 		// mesa achatada
+			gluCylinder(quadratic,0.2,0.2,0.5,30,30); 	// base da mesa
+			glColor3f(0.85,0.65,0.13); 					// dourado chalera
+			glTranslatef(0,0,-0.15);
+			glRotatef(270,1,0,0);
+			glutSolidTeapot(0.2);
+			
     	glPopMatrix();
     	
     	// GRAMADO - PISO
@@ -221,7 +235,7 @@ void Desenha(void)
 				glVertex3f(10,6,10);
 				glVertex3f(10,6,30);
 				glVertex3f(10,0,30);             
-     	 	glEnd();
+     	 	glEnd();     	 	
   	 	glPopMatrix();
   	 	
 		glPushMatrix();
@@ -242,6 +256,42 @@ void Desenha(void)
 				glVertex3f(15,6,30);
 				glVertex3f(15,0,30);             
      	 	glEnd();
+     	 	glBegin(GL_QUADS);
+     	 		glVertex3f(15,6,15);
+     	 		glVertex3f(15,6,18);
+     	 		glVertex3f(15,10,18);
+     	 		glVertex3f(15,10,15);
+     	 	glEnd();
+     	 	glBegin(GL_QUADS);
+     	 		glVertex3f(15,6,20);
+     	 		glVertex3f(15,6,24);
+     	 		glVertex3f(15,10,24);
+     	 		glVertex3f(15,10,20);
+     	 	glEnd();
+     	 	glBegin(GL_QUADS);
+     	 		glVertex3f(15,6,26);
+     	 		glVertex3f(15,6,30);
+     	 		glVertex3f(15,10,30);
+     	 		glVertex3f(15,10,26);
+     	 	glEnd();
+     	 	glBegin(GL_QUADS);
+     	 		glVertex3f(10,6,10);
+     	 		glVertex3f(10,6,18);
+     	 		glVertex3f(10,10,18);
+     	 		glVertex3f(10,10,10);
+     	 	glEnd();
+     	 	glBegin(GL_QUADS);
+     	 		glVertex3f(10,6,20);
+     	 		glVertex3f(10,6,24);
+     	 		glVertex3f(10,10,24);
+     	 		glVertex3f(10,10,20);
+     	 	glEnd();
+     	 	glBegin(GL_QUADS);
+     	 		glVertex3f(10,6,26);
+     	 		glVertex3f(10,6,30);
+     	 		glVertex3f(10,10,30);
+     	 		glVertex3f(10,10,26);
+     	 	glEnd();
   	 	glPopMatrix();	 	
   	 	
 		glPushMatrix();
@@ -258,19 +308,9 @@ void Desenha(void)
 			glBegin(GL_QUADS);
 				glColor3f(0.66,0.66,0.66); // cinza escuro
 				glVertex3f(10,0,30);
-				glVertex3f(10,6,30);
-				glVertex3f(15,6,30);
-				glVertex3f(15,0,30);             
-     	 	glEnd();
-  	 	glPopMatrix();
-  	 	
-		glPushMatrix();
-			glBegin(GL_QUADS);
-				glColor3f(0.66,0.66,0.66); // cinza escuro
-				glVertex3f(10,8,30);
 				glVertex3f(10,10,30);
 				glVertex3f(15,10,30);
-				glVertex3f(15,8,30);             
+				glVertex3f(15,0,30);             
      	 	glEnd();
   	 	glPopMatrix();
 
@@ -287,20 +327,20 @@ void Desenha(void)
 		glPushMatrix();
 			glBegin(GL_QUADS);
 				glColor3f(0.66,0.66,0.66); // cinza escuro
-				glVertex3f(10,0.1,10);
+				glVertex3f(10,0,10);
 				glVertex3f(10,10,10);
 				glVertex3f(20,10,10);
-				glVertex3f(20,0.1,10);             
+				glVertex3f(20,0,10);             
      	 	glEnd();
   	 	glPopMatrix();
   	 	
 		glPushMatrix();
 			glBegin(GL_QUADS);
 				glColor3f(0.66,0.66,0.66); // cinza escuro
-				glVertex3f(15,0.1,15);
+				glVertex3f(15,0,15);
 				glVertex3f(15,10,15);
 				glVertex3f(20,10,15);
-				glVertex3f(20,0.1,15);             
+				glVertex3f(20,0,15);             
      	 	glEnd();
   	 	glPopMatrix();
   	 	
@@ -312,6 +352,41 @@ void Desenha(void)
 				glVertex3f(20,5,15);
 				glVertex3f(20,2,15);             
      	 	glEnd();
+     	 	glBegin(GL_QUADS);
+				glVertex3f(20,7,10);
+				glVertex3f(20,10,10);
+				glVertex3f(20,10,15);
+				glVertex3f(20,7,15); 
+			glEnd();
+			glBegin(GL_QUADS);
+				glVertex3f(20,0,10);
+				glVertex3f(20,0,12);
+				glVertex3f(20,10,12);
+				glVertex3f(20,10,10);
+			glEnd();  		
+			glBegin(GL_QUADS);
+				glVertex3f(20,0,13);
+				glVertex3f(20,0,15);
+				glVertex3f(20,10,15);
+				glVertex3f(20,10,13);
+			glEnd();
+			glColor3f(0,0,0); // cor das linhas (preta)
+			glBegin(GL_LINES);
+				// linhas da porta inferior
+				glVertex3f(20,0,12);
+				glVertex3f(20,2,12);
+				glVertex3f(20,2,12);
+				glVertex3f(20,2,13);
+				glVertex3f(20,2,13);
+				glVertex3f(20,0,13);
+				// linhas da porta superior
+				glVertex3f(20,5,12);
+				glVertex3f(20,7,12);
+				glVertex3f(20,7,12);
+				glVertex3f(20,7,13);
+				glVertex3f(20,7,13);
+				glVertex3f(20,5,13);
+			glEnd();
   	 	glPopMatrix();	 	
   	 	
 		   // piso terreo
@@ -480,9 +555,11 @@ void Desenha(void)
 	    glPopMatrix();
         
         // JANELA 1
-        glPushMatrix();        	
-        	glBegin(GL_QUADS);
-        		glColor3f(1,1,1); // Branco
+        glPushMatrix();
+  			
+  			glColor3f(1,1,1); // Branco 
+			glEnable(GL_BLEND); 	
+        	glBegin(GL_QUADS);       		
         		glVertex3f(15,6,18);
         		glVertex3f(15,6,19);
         		glVertex3f(15,8,19);
@@ -862,7 +939,7 @@ int main(void)
 	glutMouseFunc(GerenciaMouse);
 	glutMotionFunc(motion);
 	glutIdleFunc(idle);					// date class 05-11-18
-    glutKeyboardFunc(key);
+    glutKeyboardFunc(key);				// funcao teclado.
 	Inicializa();
 	glutMainLoop();
 }
