@@ -33,7 +33,28 @@ GLfloat escalaX, escalaY, escalaZ;
 	//date class 05-11-18
 	static void idle(void){
 		t = glutGet(GLUT_ELAPSED_TIME) / 1000.0; 	//tempo randomico  {quanto maior mais devagar}
-		a = t*90.0; 								//angulo randomico 
+		a = t*90.0;									//angulo randomico 				
+		
+		// Abrir portas
+		if(flagS && angPorta < 90) 
+		{
+			angPorta += 0.5;
+		}
+		
+		// Fechar portas
+		if(!flagS && angPorta > 0)
+		{
+			angPorta -= 0.5;
+		}
+		
+		// Abrir Janelas 1 e 2
+		if(flagT && (transJ>=18 || transJ2>=24))
+		{
+			transJ 	-= 0.001;
+			transJ2 -= 0.001;
+		}
+		
+		
 		glutPostRedisplay();
 	}
 
@@ -49,24 +70,29 @@ key(unsigned char key, int x, int y)
             break;
 
         case 'p':
-        	if(angPorta<91){
-            	angPorta++;
+        	if(!flagS){
+            	flagS = true;
             }
             break;
 
         case 'f':
-            if (angPorta>=0)
+            if (flagS)
             {
-                angPorta--;
+                flagS = false;
             }
-            break;        
+            break;       
+		 
         case 'j':
-        	if(transJ>=18 || transJ2 >= 24 || transJ3 <= 25 || transJ4 <= 19)
+        	/*if(transJ>=18 || transJ2 >= 24 || transJ3 <= 25 || transJ4 <= 19)
 			{
 				transJ 	-= 0.1;		
 				transJ2 -= 0.1;
 				transJ3 += 0.1;
 				transJ4 += 0.1;
+			}*/
+			if(!flagT)
+			{
+				flagT = true;
 			}				
 			break;
 		case 'w':
@@ -87,11 +113,10 @@ key(unsigned char key, int x, int y)
 void Desenha(void)
 {
 	// Limpa a janela e o depth buffer
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	 glClear(GL_COLOR_BUFFER_BIT);
-	 
-	 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	    
+    
     	
 /*
 		glPushMatrix();
@@ -555,10 +580,12 @@ void Desenha(void)
 	    glPopMatrix();
         
         // JANELA 1
-        glPushMatrix();
-  			
-  			glColor3f(1,1,1); // Branco 
-			glEnable(GL_BLEND); 	
+        
+  		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 	
+        glPushMatrix(); 
+		
+  			glColor3f(1,1,1); // Branco 				
         	glBegin(GL_QUADS);       		
         		glVertex3f(15,6,18);
         		glVertex3f(15,6,19);
@@ -577,11 +604,12 @@ void Desenha(void)
 				glVertex3f(15,6,18);
 			glEnd();				    
         glPopMatrix();
-
+		
         glPushMatrix();
         	glTranslatef(15,6,transJ); // 15,6,19
         	glBegin(GL_QUADS);
         		glColor3f(1,1,1); // Branco
+        		
         		glVertex3f(0,0,0);
         		glVertex3f(0,0,1);
         		glVertex3f(0,2,1);
@@ -933,7 +961,7 @@ int main(void)
 {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(600,600);
-	glutCreateWindow("Teste 2018");
+	glutCreateWindow("CASA 'L' ");
 	glutDisplayFunc(Desenha);
     glutReshapeFunc(AlteraTamanhoJanela);
 	glutMouseFunc(GerenciaMouse);
