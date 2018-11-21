@@ -1,4 +1,22 @@
-//#include <GL/gl.h>
+// **** CABEÇALHO ****
+// PROJETO CASA 'L'
+// PONTÍFICIA UNIVERSIDADE CATÓLICA DE GOIÁS - PUC-GO
+// CURSO: COMPUTACAO GRAFICA - CMP1170
+// PROFº: Me. FABIO ASSUNÇÃO
+// ALUNO: ARIONE CHAVES GUIMARAES JUNIOR				MATRICULA: 20131002800123
+// ALUNO: IAGO
+
+
+// 			**** INSTRUÇÕES ****
+//		TECLA				AÇÃO
+//		 'p'				 abrir portas 1 e 2;
+//		 'f'				 fechar portas 1 e 2;
+//		 'j'				 abrir janelas 1,2,3 e 4;
+//		 'w'				 fechar janelas 1,2,3 e 4;
+//		 'q'				 finaliza programa;
+     
+
+
 #include <GL/glu.h>
 #include <GL/glut.h>
 
@@ -891,4 +909,3 @@ int main(void)
 	Inicializa();
 	glutMainLoop();
 }
-
