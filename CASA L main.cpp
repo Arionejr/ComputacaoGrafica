@@ -26,14 +26,14 @@ GLfloat escalaX, escalaY, escalaZ;
 	
 	static bool flagS = false;
 	static bool flagT = false;
-	static bool flagC = false;
+	//static bool flagC = false;
 	
 	GLUquadricObj *quadratic;
 	
 	//date class 05-11-18
 	static void idle(void){
-		t = glutGet(GLUT_ELAPSED_TIME) / 1000.0; 	//tempo randomico  {quanto maior mais devagar}
-		a = t*90.0;									//angulo randomico 				
+		//t = glutGet(GLUT_ELAPSED_TIME) / 1000.0; 	//tempo randomico  {quanto maior mais devagar}
+		//a = t*90.0;									//angulo randomico 				
 		
 		// Abrir portas
 		if(flagS && angPorta < 90) 
@@ -47,13 +47,23 @@ GLfloat escalaX, escalaY, escalaZ;
 			angPorta -= 0.5;
 		}
 		
-		// Abrir Janelas 1 e 2
-		if(flagT && (transJ>=18 || transJ2>=24))
+		// Abrir Janelas 1,2,3 e 4.
+		if(flagT && (transJ>=18 || transJ2>=24 || transJ3 <= 25 || transJ4 <= 19))
 		{
 			transJ 	-= 0.001;
 			transJ2 -= 0.001;
+			transJ3 += 0.001;
+			transJ4 += 0.001;
 		}
 		
+		// Fechar Janelas 1,2,3 e 4.
+		if(!flagT && (transJ<19 || transJ2 < 25 || transJ3 > 24 || transJ4 > 18))
+		{
+			transJ 	+= 0.001;
+			transJ2 += 0.001;
+			transJ3 -= 0.001;
+			transJ4 -= 0.001;
+		}		
 		
 		glutPostRedisplay();
 	}
@@ -83,25 +93,15 @@ key(unsigned char key, int x, int y)
             break;       
 		 
         case 'j':
-        	/*if(transJ>=18 || transJ2 >= 24 || transJ3 <= 25 || transJ4 <= 19)
-			{
-				transJ 	-= 0.1;		
-				transJ2 -= 0.1;
-				transJ3 += 0.1;
-				transJ4 += 0.1;
-			}*/
 			if(!flagT)
 			{
 				flagT = true;
 			}				
 			break;
 		case 'w':
-			if(transJ<19 || transJ2 < 25 || transJ3 > 24 || transJ4 > 18)
+			if(flagT)
 			{
-				transJ 	+= 0.1;
-				transJ2 += 0.1;
-				transJ3 -= 0.1;
-				transJ4 -= 0.1;
+				flagT = false;
 			}
 			break;
     }
@@ -116,88 +116,10 @@ void Desenha(void)
 	 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	 glClear(GL_COLOR_BUFFER_BIT);
-    
-    	
-/*
-		glPushMatrix();
-            glColor3f(0.9, 0.9, 0.9);
-            glBegin(GL_LINES);
-	    	glVertex3f(0.0, 0.0, 0.0);
-	    	glVertex3f(0.0, 300.0, 0.0);
-            glEnd(); 
-	    glPopMatrix();
      
-		glPushMatrix();
-            glColor3f(0.9, 0.9, 0.9);
-            glBegin(GL_LINES);
-	    	glVertex3f(0.0, 0.0, 0.0);
-	    	glVertex3f(300.0, 0.0, 0.0);
-            glEnd(); 
-	    glPopMatrix();
-		
-		glPushMatrix();
-            glColor3f(0.9, 0.9, 0.9);
-            glBegin(GL_LINES);
-	    	glVertex3f(0.0, 0.0, 0.0);
-	    	glVertex3f(0.0, 0.0, 300.0);
-            glEnd(); 
-	    glPopMatrix();
-  
-	    glPushMatrix();
-            glColor3f(1.0, 0.0, 0.0);
-            glTranslatef(10,0.0,0.0);
-            glutSolidSphere(1.0,50.0,50.0);
-	    glPopMatrix();  		
-  */	
-
-// AULA DE IERARQUIA
-/*
-  	  	  // MATRIZ 1
-  		glPushMatrix(); 	// 1
-  			glLineWidth(50.0f);
-  		
-  			// ombro (bola)
-  			glColor3f(1.0,0.0,0.0);
-  			glutSolidSphere(1.0,50.0,50.0); // parametros(tamanho,qtde slices, qtde stack)
-  			
-  			glRotatef(a,0,0,1); 
-  			
-			// braço            
-			glBegin(GL_LINES);            
-	    	glVertex3f(0.0, 0.0, 0.0);
-	    	glVertex3f(10.0, 0.0, 0.0);
-            glEnd();
-            
-        	glPushMatrix(); // 2
-        		glLineWidth(50.0f);
-        		
-	            // cotovelo (bola)
-				glColor3f(1.0, 0.0, 0.0);
-	            glTranslatef(10.0,0.0,0.0);
-	            glutSolidSphere(1.0,50.0,50.0);      
-	            
-	            glRotatef(a,0,0,1);
-	            // ante braco
-				glBegin(GL_LINES);            
-		    	glVertex3f(0.0, 0.0, 0.0);
-		    	glVertex3f(10.0, 0.0, 0.0);
-	            glEnd();
-	            
-	            // mao (bola)
-	            glColor3f(1.0, 0.0, 0.0);
-	            glTranslatef(10.0,0.0,0.0);
-	            glutSolidSphere(1.0,50.0,50.0);
-        
-			glPopMatrix();		// 2
-	    glPopMatrix();  	// 1
-*/	    
+     glEnable(GL_BLEND);
 
 
-/*
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-*/
 // CONSTRUIR CASA A PARTIR DAQUI
 
 		// CILINDRO
@@ -546,46 +468,45 @@ void Desenha(void)
         // TORUS JANELA 1
         glPushMatrix();
         	glTranslatef(15,7,19);
-        	glRotatef(45,0,0,1); // rotaciona 45º no eixo z
-         	glRotatef(90,1,1,0); // rotaciona 90º no eixo x,y
-        	glColor3f(0.47,0.53,0.42); //verde militar
+        	glRotatef(45,0,0,1); 		// rotaciona 45º no eixo z
+         	glRotatef(90,1,1,0); 		// rotaciona 90º no eixo x,y
+        	glColor3f(0.47,0.53,0.42); 	//verde militar
         	glutSolidTorus(0.2,1.5,/*slices*/4,/*stacks*/4);
 	    glPopMatrix();
 	    
 	    // TORUS JANELA 2
         glPushMatrix();
         	glTranslatef(15,7,25);
-        	glRotatef(45,0,0,1); // rotaciona 45º no eixo z
-         	glRotatef(90,1,1,0); // rotaciona 90º no eixo x,y
-        	glColor3f(0.47,0.53,0.42); //verde militar
+        	glRotatef(45,0,0,1); 		// rotaciona 45º no eixo z
+         	glRotatef(90,1,1,0); 		// rotaciona 90º no eixo x,y
+        	glColor3f(0.47,0.53,0.42); 	//verde militar
         	glutSolidTorus(0.2,1.5,/*slices*/4,/*stacks*/4);
 	    glPopMatrix();
 	    
 	    // TORUS JANELA 3
         glPushMatrix();
         	glTranslatef(10,7,19);
-        	glRotatef(45,0,0,1); // rotaciona 45º no eixo z
-         	glRotatef(90,1,1,0); // rotaciona 90º no eixo x,y
-        	glColor3f(0.47,0.53,0.42); //verde militar
+        	glRotatef(45,0,0,1); 		// rotaciona 45º no eixo z
+         	glRotatef(90,1,1,0); 		// rotaciona 90º no eixo x,y
+        	glColor3f(0.47,0.53,0.42); 	//verde militar
         	glutSolidTorus(0.2,1.5,/*slices*/4,/*stacks*/4);
 	    glPopMatrix();
 	    
 	    // TORUS JANELA 4
         glPushMatrix();
         	glTranslatef(10,7,25);
-        	glRotatef(45,0,0,1); // rotaciona 45º no eixo z
-         	glRotatef(90,1,1,0); // rotaciona 90º no eixo x,y
-        	glColor3f(0.47,0.53,0.42); //verde militar
+        	glRotatef(45,0,0,1); 		// rotaciona 45º no eixo z
+         	glRotatef(90,1,1,0); 		// rotaciona 90º no eixo x,y
+        	glColor3f(0.47,0.53,0.42); 	//verde militar
         	glutSolidTorus(0.2,1.5,/*slices*/4,/*stacks*/4);
 	    glPopMatrix();
         
         // JANELA 1
-        
-  		glEnable(GL_BLEND);
+
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 	
         glPushMatrix(); 
 		
-  			glColor3f(1,1,1); // Branco 				
+  			glColor4f(1,1,1,0.05); // Branco 				
         	glBegin(GL_QUADS);       		
         		glVertex3f(15,6,18);
         		glVertex3f(15,6,19);
@@ -608,8 +529,7 @@ void Desenha(void)
         glPushMatrix();
         	glTranslatef(15,6,transJ); // 15,6,19
         	glBegin(GL_QUADS);
-        		glColor3f(1,1,1); // Branco
-        		
+        		glColor4f(1,1,1,0.05); // Branco	
         		glVertex3f(0,0,0);
         		glVertex3f(0,0,1);
         		glVertex3f(0,2,1);
@@ -632,7 +552,7 @@ void Desenha(void)
 		// JANELA 2
         glPushMatrix();
         	glBegin(GL_QUADS);
-        		glColor3f(1,1,1); // Branco
+        		glColor4f(1,1,1,0.05); // Branco
         		glVertex3f(15,6,24);
         		glVertex3f(15,6,25);
         		glVertex3f(15,8,25);
@@ -654,7 +574,7 @@ void Desenha(void)
         glPushMatrix();
         	glTranslatef(15,6,transJ2); //15,6,25
         	glBegin(GL_QUADS);
-        		glColor3f(1,1,1); // Branco
+        		glColor4f(1,1,1,0.05); // Branco
         		glVertex3f(0,0,0);
         		glVertex3f(0,0,1);
         		glVertex3f(0,2,1);
@@ -677,7 +597,7 @@ void Desenha(void)
 		// JANELA 3
         glPushMatrix();
         	glBegin(GL_QUADS);
-        		glColor3f(1,1,1); // Branco
+        		glColor4f(1,1,1,0.05); // Branco
         		glVertex3f(10,6,25);
         		glVertex3f(10,6,26);
         		glVertex3f(10,8,26);
@@ -699,7 +619,7 @@ void Desenha(void)
         glPushMatrix();
         	glTranslatef(10,6,transJ3); //10,6,24
         	glBegin(GL_QUADS);
-        		glColor3f(1,1,1); // Branco
+        		glColor4f(1,1,1,0.05); // Branco
         		glVertex3f(0,0,0);
         		glVertex3f(0,0,1);
         		glVertex3f(0,2,1);
@@ -722,7 +642,7 @@ void Desenha(void)
         // JANELA 4
         glPushMatrix();        	
         	glBegin(GL_QUADS);
-        		glColor3f(1,1,1); // Branco
+        		glColor4f(1,1,1,0.05); // Branco
         		glVertex3f(10,6,19);
         		glVertex3f(10,6,20);
         		glVertex3f(10,8,20);
@@ -744,7 +664,7 @@ void Desenha(void)
         glPushMatrix();
         	glTranslatef(10,6,transJ4); // 10,6,18
         	glBegin(GL_QUADS);
-        		glColor3f(1,1,1); // Branco
+        		glColor4f(1,1,1,0.05); // Branco
         		glVertex3f(0,0,0);
         		glVertex3f(0,0,1);
         		glVertex3f(0,2,1);
