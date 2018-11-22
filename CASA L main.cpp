@@ -4,7 +4,7 @@
 // CURSO: COMPUTACAO GRAFICA - CMP1170
 // PROFº: Me. FABIO ASSUNÇÃO
 // ALUNO: ARIONE CHAVES GUIMARAES JUNIOR				MATRICULA: 20131002800123
-// ALUNO: IAGO
+// ALUNO: IAGO CORREIA DE SOUSA							MATRICULA: 20151003303225
 
 
 // 			**** INSTRUÇÕES ****
@@ -42,8 +42,8 @@ GLfloat escalaX, escalaY, escalaZ;
 	static double transJ3 	= 24;
 	static double transJ4 	= 18;
 	
-	static bool flagS = false;
-	static bool flagT = false;
+	static bool flagS = false; //valida abrir e fechar de porta
+	static bool flagT = false; //valida abrir e fechar de janelas
 	//static bool flagC = false;
 	
 	GLUquadricObj *quadratic;
